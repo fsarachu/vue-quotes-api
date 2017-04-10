@@ -14,72 +14,81 @@ class QuoteController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json(['quotes' => Quote::all()], 200);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'content' => 'required|string|max:255',
+        ]);
+
+        $quote = Quote::create($request->only(['content']));
+
+        if ($quote) {
+            return response()->json(['quote' => $quote], 201);
+        }
+
+        return response()->json(['message' => "Quote not created"], 500);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Quote  $quote
+     * @param  \App\Quote $quote
      * @return \Illuminate\Http\Response
      */
     public function show(Quote $quote)
     {
-        //
-    }
+        if (!$quote) {
+            return response()->json(['message' => 'Quote not found'], 404);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Quote  $quote
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Quote $quote)
-    {
-        //
+        return response()->json(['quote' => $quote], 200);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Quote  $quote
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Quote $quote
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Quote $quote)
     {
-        //
+        if (!$quote) {
+            return response()->json(['message' => 'Quote not found'], 404);
+        }
+
+        $this->validate($request, [
+            'content' => 'required|string|max:255',
+        ]);
+
+        $quote->update($request->only(['content']));
+
+        return response()->json(['quote' => $quote], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Quote  $quote
+     * @param  \App\Quote $quote
      * @return \Illuminate\Http\Response
      */
     public function destroy(Quote $quote)
     {
-        //
+        if (!$quote) {
+            return response()->json(['message' => 'Quote not found'], 404);
+        }
+
+        $quote->delete();
+
+        return response()->json(['message' => 'Quote successfully deleted'], 200);
     }
 }
