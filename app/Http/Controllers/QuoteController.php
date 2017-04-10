@@ -39,7 +39,7 @@ class QuoteController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Return the specified resource.
      *
      * @param  \App\Quote $quote
      * @return \Illuminate\Http\Response
