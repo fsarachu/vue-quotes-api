@@ -4365,7 +4365,8 @@ var routes = [{
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
     routes: routes,
-    mode: 'history'
+    mode: 'history',
+    linkActiveClass: 'is-active'
 }));
 
 /***/ }),
@@ -4544,7 +4545,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "to": {
         name: 'home'
       },
-      "activeClass": "is-active",
       "exact": ""
     }
   }, [_vm._v("Home")]), _vm._v(" "), _c('router-link', {
@@ -4552,8 +4552,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "to": {
         name: 'about'
-      },
-      "activeClass": "is-active"
+      }
     }
   }, [_vm._v("About")])], 1)])])
 },staticRenderFns: []}
