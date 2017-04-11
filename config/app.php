@@ -181,6 +181,7 @@ return [
          * Third Party Service Providers...
          */
         Barryvdh\Cors\ServiceProvider::class,
+        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
     ],
 
     /*
@@ -212,6 +213,8 @@ return [
         'File' => Illuminate\Support\Facades\File::class,
         'Gate' => Illuminate\Support\Facades\Gate::class,
         'Hash' => Illuminate\Support\Facades\Hash::class,
+        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
         'Lang' => Illuminate\Support\Facades\Lang::class,
         'Log' => Illuminate\Support\Facades\Log::class,
         'Mail' => Illuminate\Support\Facades\Mail::class,
