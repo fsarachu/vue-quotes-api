@@ -25,7 +25,10 @@ class UserController extends Controller
 
         $user->save();
 
-        return response()->json(['message' => 'User successfully created'], 201);
+        $message = 'User successfully created';
+        $token = JWTAuth::fromUser($user);
+
+        return response()->json(compact('message', 'token'), 201);
     }
 
     public function signin(Request $request)
