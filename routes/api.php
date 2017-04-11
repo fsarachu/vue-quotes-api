@@ -15,4 +15,5 @@ use Illuminate\Http\Request;
 
 Route::resource('quotes', 'QuoteController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
 
-Route::post('/users', 'UserController@signup');
+Route::post('/users/signup', 'UserController@signup');
+Route::post('/users/signin', 'UserController@signin');
