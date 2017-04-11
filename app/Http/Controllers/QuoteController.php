@@ -14,7 +14,7 @@ class QuoteController extends Controller
      */
     public function index()
     {
-        return response()->json(['quotes' => Quote::all()], 200);
+        return response()->json(['quotes' => Quote::orderBy('created_at', 'desc')->get()], 200);
     }
 
     /**
