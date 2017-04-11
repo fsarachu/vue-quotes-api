@@ -42,9 +42,9 @@ class UserController extends Controller
                 return response()->json(['message' => 'Invalid credentials'], 401);
             }
         } catch (JWTException $e) {
-            return response()->json(['message' => 'Couldn\'t sign in'], 500);
+            return response()->json(['message' => 'Could not create token'], 500);
         }
 
-        return response()->json(['token' => $token], 200);
+        return response()->json(compact('token'), 200);
     }
 }
