@@ -13,7 +13,10 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::resource('quotes', 'QuoteController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
+
+Route::group(['middleware' => 'jwt.auth'], function () {
+    Route::resource('quotes', 'QuoteController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
+});
 
 Route::post('/users/signup', 'UserController@signup');
 Route::post('/users/signin', 'UserController@signin');
