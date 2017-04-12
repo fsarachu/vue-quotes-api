@@ -34,11 +34,11 @@ class UserController extends Controller
     public function signin(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|email',
+            'name' => 'required|string',
             'password' => 'required|string'
         ]);
 
-        $credentials = $request->only(['email', 'password']);
+        $credentials = $request->only(['name', 'password']);
 
         try {
             if (!$token = JWTAuth::attempt($credentials)) {
