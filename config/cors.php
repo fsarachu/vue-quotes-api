@@ -14,7 +14,7 @@ return [
     'allowedOrigins' => ['localhost:*'],
     'allowedHeaders' => ['*'],
     'allowedMethods' => ['*'],
-    'exposedHeaders' => [],
+    'exposedHeaders' => ['Authorization'],
     'maxAge' => 0,
 ];
 
