@@ -25,10 +25,12 @@ class UserController extends Controller
 
         $user->save();
 
-        $message = 'User successfully created';
-        $token = JWTAuth::fromUser($user);
+        $data = [
+            'user' => $user->attributesToArray(),
+            'token' => JWTAuth::fromUser($user),
+        ];
 
-        return response()->json(compact('message', 'token'), 201);
+        return response()->json(['data' => $data], 201);
     }
 
     public function signin(Request $request)
@@ -42,12 +44,17 @@ class UserController extends Controller
 
         try {
             if (!$token = JWTAuth::attempt($credentials)) {
-                return response()->json(['message' => 'Invalid credentials'], 401);
+                return response()->json(['error' => 'Invalid credentials'], 401);
             }
         } catch (JWTException $e) {
-            return response()->json(['message' => 'Could not create token'], 500);
+            return response()->json(['error' => 'Could not create token'], 500);
         }
 
-        return response()->json(compact('token'), 200);
+        $data = [
+            'user' => JWTAuth::authenticate($token),
+            'token' => $token,
+        ];
+
+        return response()->json(['data' => $data], 200);
     }
 }
