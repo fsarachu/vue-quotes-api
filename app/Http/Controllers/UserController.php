@@ -25,12 +25,15 @@ class UserController extends Controller
 
         $user->save();
 
+        $token = JWTAuth::fromUser($user);
+
         $data = [
             'user' => $user->attributesToArray(),
-            'token' => JWTAuth::fromUser($user),
         ];
 
-        return response()->json(['data' => $data], 201);
+        return response()
+            ->json(['data' => $data], 201)
+            ->header('Authorization', 'Bearer ' . $token);
     }
 
     public function signin(Request $request)
@@ -50,11 +53,10 @@ class UserController extends Controller
             return response()->json(['error' => 'Could not create token'], 500);
         }
 
-        $data = [
-            'user' => JWTAuth::authenticate($token),
-            'token' => $token,
-        ];
+        $data = JWTAuth::authenticate($token);
 
-        return response()->json(['data' => $data], 200);
+        return response()
+            ->json(['data' => $data], 200)
+            ->header('Authorization', 'Bearer ' . $token);
     }
 }
