@@ -12,7 +12,7 @@ class UserController extends Controller
     public function signup(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|string|max:50',
+            'name' => 'required|string|max:50|unique:users',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|confirmed'
         ]);
