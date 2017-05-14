@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Quote;
 use Illuminate\Http\Request;
+use JWTAuth;
 
 class QuoteController extends Controller
 {
@@ -14,7 +15,8 @@ class QuoteController extends Controller
      */
     public function index()
     {
-        return response()->json(['quotes' => Quote::orderBy('created_at', 'desc')->get()], 200);
+        $data = Quote::with('user')->orderBy('created_at', 'desc')->get();
+        return response()->json(['quotes' => $data], 200);
     }
 
     /**
@@ -29,10 +31,14 @@ class QuoteController extends Controller
             'content' => 'required|string|max:255',
         ]);
 
-        $quote = Quote::create($request->only(['content']));
+        $quote_data = $request->only(['content']);
+        $quote_data['user_id'] = JWTAuth::parseToken()->authenticate()->id;
+
+        $quote = Quote::create($quote_data);
 
         if ($quote) {
-            return response()->json(['quote' => $quote], 201);
+            $data = $quote->load('user');
+            return response()->json(['quote' => $data], 201);
         }
 
         return response()->json(['message' => "Quote not created"], 500);
