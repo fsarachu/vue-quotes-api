@@ -25,14 +25,15 @@ class UserController extends Controller
 
         $user->save();
 
-        $token = JWTAuth::fromUser($user);
-
-        $data = [
-            'user' => $user->attributesToArray(),
+        $custom_claims = [
+            'username' => $user->name,
+            'email' => $user->email,
         ];
 
+        $token = JWTAuth::fromUser($user, $custom_claims);
+
         return response()
-            ->json(['data' => $data], 201)
+            ->json(['data' => null], 201)
             ->header('Authorization', 'Bearer ' . $token);
     }
 
@@ -53,10 +54,17 @@ class UserController extends Controller
             return response()->json(['error' => 'Could not create token'], 500);
         }
 
-        $data = JWTAuth::authenticate($token);
+        $user = JWTAuth::authenticate($token);
+
+        $custom_claims = [
+            'username' => $user->name,
+            'email' => $user->email,
+        ];
+
+        $token = JWTAuth::fromUser($user, $custom_claims);
 
         return response()
-            ->json(['data' => $data], 200)
+            ->json(['data' => null], 200)
             ->header('Authorization', 'Bearer ' . $token);
     }
 }
